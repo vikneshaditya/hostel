@@ -18,11 +18,10 @@ echo"<script>alert('Email id has been successfully updated');</script>";
 // code for change password
 if(isset($_POST['changepwd']))
 {
-  $password= hash("sha512",$password);
   $op=$_POST['oldpassword'];
   $np=$_POST['newpassword'];
   $op= hash("sha512",$op);
-  $np= hash("sha512",$np;
+  $np= hash("sha512",$np);
 $ai=$_SESSION['id'];
 $udate=date('Y-m-d');
 	$sql="SELECT password FROM admin where password=?";
