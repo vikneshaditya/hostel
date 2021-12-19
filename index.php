@@ -109,11 +109,11 @@ return true;
 									<input type="text" placeholder="Email / Registration Number" name="emailreg" class="form-control mb" required="true">
 									<label for="" class="text-uppercase text-sm">Password</label>
 									<input type="password" placeholder="Password" name="password" class="form-control mb" required="true">
-									<!--Cpatcha Image --> <div class="form-group">
-              <input type="text"   name="verficationcode" maxlength="5" autocomplete="off" required  style="width: 200px;"  placeholder="Enter Captcha" autofocus />&nbsp;
-              <!--Cpatcha Image -->
-              <img src="C:\xampp\htdocs\hostel\includes\captcha.php">
-              </div>   <!--Cpatcha Image -->
+									<!--Cpatcha Image -->     <div class="form-group">
+                             <input type="text"   name="verficationcode" maxlength="5" autocomplete="off" required  style="width: 200px;"  placeholder="Enter Captcha" autofocus />&nbsp;
+
+                             <img src="captcha.php">
+                           </div>   <!--Cpatcha Image -->
 
 
 									<input type="submit" name="login" class="btn btn-primary btn-block" value="login" >
