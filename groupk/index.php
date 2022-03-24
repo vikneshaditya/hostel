@@ -1,10 +1,17 @@
 <?php
 session_start();
 include('includes/config.php');
+include('includes/inputval.php');
 if(isset($_POST['login']))
 {
-$username=$_POST['username'];
-$password=$_POST['password'];
+	if ($_POST["verficationcode"] != $_SESSION["vercode"] OR $_SESSION["vercode"]=='')
+    {
+    echo "<script>alert('Incorrect captcha');</script>" ;
+    }
+    else
+		{
+$username=Input::email($_POST['username']);
+$password=Input::str($_POST['password']);
 $password= hash("sha512",$password);
 $stmt=$mysqli->prepare("SELECT username,email,password,id FROM admin WHERE (userName=?|| email=?) and password=? ");
 				$stmt->bind_param('sss',$username,$username,$password);
@@ -16,10 +23,15 @@ $stmt=$mysqli->prepare("SELECT username,email,password,id FROM admin WHERE (user
 				$ldate=date('d/m/Y h:i:s', time());
 				if($rs)
 				{
-                //  $insert="INSERT into admin(adminid,ip)VALUES(?,?)";
-   // $stmtins = $mysqli->prepare($insert);
-   // $stmtins->bind_param('sH',$id,$uip);
-    //$res=$stmtins->execute();
+					$uid=$_SESSION['id'];
+             $uemail=$_SESSION['login'];
+						 $_SESSION['last_login_timestmp']= time();
+             $str=rand();
+             $result = md5($str);
+             $cookie_name=$result;
+             $cookie_value= $id;
+             setcookie($cookie_name, $cookie_value);
+             setcookie($cookie_name, $cookie_value, time() + 3600,"/");
 					header("location:dashboard.php");
 				}
 
@@ -28,6 +40,7 @@ $stmt=$mysqli->prepare("SELECT username,email,password,id FROM admin WHERE (user
 					echo "<script>alert('Invalid Username/Email or password');</script>";
 				}
 			}
+		}
 				?>
 
 <!doctype html>
@@ -66,6 +79,12 @@ $stmt=$mysqli->prepare("SELECT username,email,password,id FROM admin WHERE (user
 									<input type="text" placeholder="Username" name="username" class="form-control mb">
 									<label for="" class="text-uppercase text-sm">Password</label>
 									<input type="password" placeholder="Password" name="password" class="form-control mb">
+
+									<!--Cpatcha Image -->     <div class="form-group">
+														 <input type="text"   name="verficationcode" maxlength="5" autocomplete="off" required  style="width: 200px;"  placeholder="Enter Captcha" autofocus />&nbsp;
+
+														 <img src="captcha.php">
+													 </div>   <!--Cpatcha Image -->
 
 
 									<input type="submit" name="login" class="btn btn-primary btn-block" value="login" >

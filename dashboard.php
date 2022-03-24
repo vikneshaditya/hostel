@@ -1,7 +1,7 @@
 <?php
 session_start();
-include('app/includes/config.php');
-include('app/includes/checklogin.php');
+include('includes/config.php');
+include('includes/checklogin.php');
 check_login();
 
 ?>

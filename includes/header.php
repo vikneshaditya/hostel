@@ -1,5 +1,6 @@
 
-<?php if($_SESSION['id'])
+<?php
+if($_SESSION['id'])
 {
 if((time() - $_SESSION['last_login_timestmp'])>900)
      {

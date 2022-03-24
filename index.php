@@ -3,17 +3,16 @@ session_start();
 include('includes/config.php');
 include('includes/inputval.php');
 if(isset($_POST['login']))
-
-  {
-  //  if ($_POST["verficationcode"] != $_SESSION["vercode"] OR $_SESSION["vercode"]=='')
-    //{
-    //echo "<script>alert('Incorrect captcha');</script>" ;
-  //  }
-  //  else
+{
+  if ($_POST["verficationcode"] != $_SESSION["vercode"] OR $_SESSION["vercode"]=='')
+    {
+    echo "<script>alert('Incorrect captcha');</script>" ;
+    }
+    else
 		{
-$emailreg=Input::email($_POST['emailreg']);
-$password=Input::str($_POST['password']);
-$password= hash("sha512",$password);
+	$emailreg=Input::email($_POST['emailreg']);
+	$password=Input::str($_POST['password']);
+	$password= hash("sha512",$password);
 $stmt=$mysqli->prepare("SELECT email,password,id FROM userregistration WHERE (email=? || regNo=?) and password=? ");
 				$stmt->bind_param('sss',$emailreg,$emailreg,$password);
 				$stmt->execute();
@@ -29,10 +28,12 @@ $stmt=$mysqli->prepare("SELECT email,password,id FROM userregistration WHERE (em
              $uid=$_SESSION['id'];
              $uemail=$_SESSION['login'];
 						 $_SESSION['last_login_timestmp']= time();
-						 $cookie_name['cid']=$uid;
-						 $cookie_value= $uid;
-						 setcookie($cookie_name, $cookie_value);
-						 setcookie($cookie_name, $cookie_value, time() + 3600,"/");
+             $str=rand();
+             $result = md5($str);
+             $cookie_name=$result;
+             $cookie_value= $id;
+             setcookie($cookie_name, $cookie_value);
+             setcookie($cookie_name, $cookie_value, time() + 3600,"/");
 $ip=$_SERVER['REMOTE_ADDR'];
 $geopluginURL='http://www.geoplugin.net/php.gp?ip='.$ip;
 $addrDetailsArr = unserialize(file_get_contents($geopluginURL));
@@ -50,7 +51,7 @@ header("location:dashboard.php");
 					echo "<script>alert('Invalid Username/Email or password');</script>";
 				}
 			}
-	}
+    }
 				?>
 
 <!doctype html>
